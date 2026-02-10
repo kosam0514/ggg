@@ -9,6 +9,7 @@ const App: React.FC = () => {
   const [selectedChar, setSelectedChar] = useState<Character | null>(null);
   const [previewImageId, setPreviewImageId] = useState<number | null>(null);
 
+  // Handle escape key to close modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setPreviewImageId(null);
@@ -30,112 +31,115 @@ const App: React.FC = () => {
       );
     }
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         {cards}
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-200">
-      {/* Navigation */}
-      <header className="bureau-gradient text-white sticky top-0 z-50 shadow-2xl border-b border-white/5">
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-100">
+      {/* Header */}
+      <header className="bureau-gradient text-white sticky top-0 z-50 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16">
             <div 
-              className="flex items-center space-x-4 cursor-pointer group"
-              onClick={() => { setActiveTab('overview'); setSelectedChar(null); window.scrollTo(0,0); }}
+              className="flex items-center space-x-3 cursor-pointer group"
+              onClick={() => { setActiveTab('overview'); setSelectedChar(null); }}
             >
-              <div className="bg-white text-slate-900 w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl shadow-lg transition-transform group-hover:scale-105">N</div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-black tracking-tighter leading-none">N.P.S.I</h1>
-                <p className="text-[9px] text-slate-400 uppercase tracking-[0.2em] font-bold mt-1">National Special Incentive</p>
+              <div className="bg-white text-slate-900 w-8 h-8 rounded flex items-center justify-center font-black group-hover:bg-blue-400 group-hover:text-white transition-colors">N</div>
+              <div>
+                <h1 className="text-lg font-bold tracking-tight">N.P.S.I</h1>
+                <p className="text-[9px] text-slate-400 uppercase tracking-widest leading-none">Administrative Portal</p>
               </div>
             </div>
-            
-            <nav className="flex space-x-1 sm:space-x-4 md:space-x-8 text-xs sm:text-sm font-bold uppercase tracking-widest">
+            <nav className="hidden md:flex space-x-8 text-sm font-medium">
               <button 
                 onClick={() => { setActiveTab('overview'); setSelectedChar(null); }}
-                className={`px-3 py-2 transition-all rounded-md ${activeTab === 'overview' ? 'bg-white/10 text-blue-300' : 'text-slate-400 hover:text-white'}`}
+                className={`hover:text-blue-300 transition-colors py-5 border-b-2 ${activeTab === 'overview' ? 'text-blue-300 border-blue-400' : 'border-transparent'}`}
               >
-                World
+                Worldview
               </button>
               {CHARACTERS.map(char => (
                 <button 
                   key={char.id}
                   onClick={() => { setActiveTab('character'); setSelectedChar(char); }}
-                  className={`px-3 py-2 transition-all rounded-md ${selectedChar?.id === char.id ? 'bg-white/10 text-blue-300' : 'text-slate-400 hover:text-white'}`}
+                  className={`hover:text-blue-300 transition-colors py-5 border-b-2 ${selectedChar?.id === char.id ? 'text-blue-300 border-blue-400' : 'border-transparent'}`}
                 >
                   {char.name}
                 </button>
               ))}
               <button 
                 onClick={() => { setActiveTab('common'); setSelectedChar(null); }}
-                className={`px-3 py-2 transition-all rounded-md ${activeTab === 'common' ? 'bg-white/10 text-blue-300' : 'text-slate-400 hover:text-white'}`}
+                className={`hover:text-blue-300 transition-colors py-5 border-b-2 ${activeTab === 'common' ? 'text-blue-300 border-blue-400' : 'border-transparent'}`}
               >
                 Common
               </button>
             </nav>
+            <div className="flex items-center text-[10px] space-x-2 text-slate-400 font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="tracking-tighter">SECURE ACCESS GRANTED</span>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
         {/* Worldview Overview */}
         {activeTab === 'overview' && (
-          <div className="space-y-16 animate-in fade-in duration-1000">
-            <div className="relative p-12 bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-              <div className="absolute top-[-10%] right-[-5%] text-slate-50 text-[300px] opacity-30 select-none pointer-events-none">
-                <i className="fa-solid fa-landmark"></i>
+          <div className="space-y-12 animate-in fade-in duration-700">
+            <section className="bg-white p-10 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-5">
+                <i className="fa-solid fa-stamp text-[120px]"></i>
               </div>
-              
-              <div className="relative z-10 max-w-3xl space-y-8">
-                <div className="inline-flex items-center space-x-3 px-4 py-2 bg-blue-50 rounded-full border border-blue-100">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                  <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Project Identification: NPSI-2030</span>
+              <div className="flex items-center space-x-5 mb-8">
+                <div className="p-4 bg-slate-900 rounded-xl">
+                  <i className="fa-solid fa-building-columns text-2xl text-white"></i>
                 </div>
-                
-                <h2 className="text-5xl font-black tracking-tighter text-slate-900 leading-none">
-                  당신의 오늘이 <br/>
-                  <span className="text-blue-600">헛되지 않도록.</span>
-                </h2>
-                
-                <div className="grid sm:grid-cols-2 gap-10 text-slate-600">
-                  <div className="space-y-4">
-                    <p className="font-bold text-slate-900 text-lg">국가 공인 특별 복지</p>
-                    <p className="leading-relaxed text-sm">2030년, 불확실한 미래 연금 대신 현재의 확실한 안정을 제공하는 국가적 차원의 특별 인센티브 제도입니다. 청년들의 성실한 납세와 기여에 대한 최고의 보답입니다.</p>
-                  </div>
-                  <div className="space-y-4">
-                    <p className="font-bold text-slate-900 text-lg">전문적인 관리 체계</p>
-                    <p className="leading-relaxed text-sm">모든 서비스는 국가 자격증을 소지한 전문 요원에 의해 행정 절차에 따라 안전하고 투명하게 진행됩니다. 안정적인 케어가 본 프로젝트의 핵심 가치입니다.</p>
-                  </div>
+                <div>
+                  <h2 className="text-3xl font-black tracking-tight">N.P.S.I 프로젝트 개요</h2>
+                  <p className="text-blue-600 font-bold text-sm">“당신의 오늘이 헛되지 않도록.”</p>
                 </div>
               </div>
-            </div>
+              <div className="grid md:grid-cols-2 gap-12 text-sm leading-relaxed text-slate-600">
+                <div className="space-y-5">
+                  <h3 className="font-bold text-slate-900 border-l-4 border-blue-600 pl-4 text-base uppercase tracking-tight">시행 배경 및 사회 인식</h3>
+                  <p>2030년 국민 연금 고갈 위기에 대응하여 도입된 본 프로젝트는 청년층의 이탈 방지를 위한 합법적인 국가 복지 서비스입니다.</p>
+                  <p>단순한 유흥이 아닌 '정부 보장 특별 인센티브'로 규정되어 사회 전반에서 긍정적인 평가를 받고 있습니다.</p>
+                </div>
+                <div className="space-y-5">
+                  <h3 className="font-bold text-slate-900 border-l-4 border-blue-600 pl-4 text-base uppercase tracking-tight">운영 가이드라인</h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-start"><i className="fa-solid fa-check text-blue-500 mt-1 mr-3"></i> 과도한 자극보다 안정적인 케어와 행정적 절차 중심</li>
+                    <li className="flex items-start"><i className="fa-solid fa-check text-blue-500 mt-1 mr-3"></i> 특별직 공무원 및 국가 공인 자격증 소지 요원 파견</li>
+                    <li className="flex items-start"><i className="fa-solid fa-check text-blue-500 mt-1 mr-3"></i> 프리미엄 요금제(월 소득 15%) 가입자 대상 고품격 서비스</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
 
             <section>
-              <div className="flex items-center justify-between mb-10">
-                <h3 className="text-2xl font-black tracking-tight flex items-center">
-                  <span className="w-8 h-1 bg-blue-600 mr-4"></span>
-                  파견 전담 요원 프로필
-                </h3>
-              </div>
+              <h2 className="text-xl font-bold mb-8 flex items-center tracking-tight">
+                <i className="fa-solid fa-address-card mr-3 text-slate-400"></i>
+                현장 파견 요원 명부
+              </h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {CHARACTERS.map(char => (
                   <div 
                     key={char.id} 
                     onClick={() => { setActiveTab('character'); setSelectedChar(char); window.scrollTo(0,0); }}
-                    className="bg-white p-10 rounded-[2rem] border border-slate-200 hover:border-blue-500/50 hover:shadow-2xl transition-all cursor-pointer group flex flex-col items-center text-center"
+                    className="bg-white p-8 rounded-2xl border border-slate-200 hover:border-blue-400 cursor-pointer transition-all hover:shadow-xl group relative overflow-hidden"
                   >
-                    <div className={`w-20 h-20 ${char.themeColor} rounded-2xl flex items-center justify-center mb-8 shadow-xl transition-transform group-hover:scale-110 group-hover:rotate-3`}>
-                      <i className="fa-solid fa-user-shield text-white text-3xl"></i>
+                    <div className={`w-14 h-14 ${char.themeColor} rounded-xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 shadow-lg`}>
+                      <i className="fa-solid fa-user-shield text-white text-xl"></i>
                     </div>
-                    <h4 className="text-2xl font-black mb-1">{char.name}</h4>
-                    <p className={`text-[11px] font-bold uppercase tracking-widest mb-6 ${char.accentColor}`}>{char.position}</p>
-                    <p className="text-sm text-slate-500 leading-relaxed mb-8 line-clamp-3 italic">"{char.description}"</p>
-                    <div className="mt-auto px-6 py-2 bg-slate-50 rounded-full text-[10px] font-black text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors uppercase tracking-[0.2em]">
-                      View Dossier
+                    <h3 className="text-xl font-bold mb-1">{char.name} <span className="text-xs font-normal text-slate-400 ml-2">AGE {char.age}</span></h3>
+                    <p className={`text-xs font-bold mb-4 ${char.accentColor} uppercase tracking-tighter`}>{char.position}</p>
+                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{char.description}</p>
+                    <div className="mt-6 flex justify-end">
+                      <span className="text-[10px] font-bold text-slate-300 group-hover:text-blue-500 transition-colors uppercase tracking-widest">View Archive →</span>
                     </div>
                   </div>
                 ))}
@@ -144,75 +148,63 @@ const App: React.FC = () => {
           </div>
         )}
 
-        {/* Character Dossier View */}
+        {/* Character View */}
         {activeTab === 'character' && selectedChar && (
-          <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className={`relative p-12 rounded-[2.5rem] text-white ${selectedChar.themeColor} shadow-3xl overflow-hidden`}>
-              <div className="absolute right-[-5%] top-[-10%] opacity-5 text-[500px] select-none pointer-events-none transform rotate-12">
-                <i className="fa-solid fa-fingerprint"></i>
+          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <div className={`p-10 rounded-3xl text-white ${selectedChar.themeColor} shadow-2xl relative overflow-hidden`}>
+              <div className="absolute right-[-10%] top-[-20%] opacity-10 transform rotate-12">
+                <i className="fa-solid fa-id-card text-[400px]"></i>
               </div>
-              
-              <div className="relative z-10 grid lg:grid-cols-12 gap-12 items-center">
-                <div className="lg:col-span-4 xl:col-span-3">
-                  <div className="relative group cursor-zoom-in" onClick={() => setPreviewImageId(selectedChar.imageRange[0])}>
-                    <div className="absolute inset-0 bg-blue-500 rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              <div className="relative z-10 grid md:grid-cols-12 gap-10 items-center">
+                <div className="md:col-span-4 lg:col-span-3">
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-2 border border-white/10 shadow-inner group cursor-zoom-in" onClick={() => setPreviewImageId(selectedChar.imageRange[0])}>
                     <img 
                       src={`${BASE_IMAGE_URL}${selectedChar.imageRange[0]}.jpg`} 
-                      className="relative w-full aspect-[3/4] object-cover rounded-3xl shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]" 
+                      className="w-full aspect-[3/4] object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" 
                       alt={selectedChar.name}
                     />
                   </div>
                 </div>
-                
-                <div className="lg:col-span-8 xl:col-span-9 space-y-8">
-                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                    <div>
-                      <h2 className="text-6xl font-black tracking-tighter">{selectedChar.name}</h2>
-                      <p className={`${selectedChar.accentColor} font-black uppercase tracking-[0.3em] text-sm mt-2`}>{selectedChar.position}</p>
-                    </div>
-                    <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                      <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Employee Age:</span>
-                      <span className="text-lg font-black">{selectedChar.age}</span>
-                    </div>
+                <div className="md:col-span-8 lg:col-span-9 space-y-6">
+                  <div>
+                    <h2 className="text-5xl font-black mb-2 tracking-tighter">{selectedChar.name}</h2>
+                    <p className="text-blue-400 font-bold uppercase tracking-[0.2em] text-sm">{selectedChar.position}</p>
                   </div>
-                  
                   <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="bg-black/30 backdrop-blur-xl p-6 rounded-3xl border border-white/5 space-y-3">
-                      <p className="text-white/30 text-[10px] font-black uppercase tracking-widest">Physical Profile</p>
-                      <p className="text-sm font-medium leading-relaxed opacity-90">{selectedChar.appearance}</p>
+                    <div className="bg-black/20 backdrop-blur-sm p-5 rounded-2xl border border-white/5">
+                      <p className="text-white/40 text-[9px] uppercase font-black mb-2 tracking-widest">Visual Specs</p>
+                      <p className="text-sm font-medium leading-relaxed">{selectedChar.appearance}</p>
                     </div>
-                    <div className="bg-black/30 backdrop-blur-xl p-6 rounded-3xl border border-white/5 space-y-3">
-                      <p className="text-white/30 text-[10px] font-black uppercase tracking-widest">Behavioral Matrix</p>
-                      <p className="text-sm font-medium leading-relaxed opacity-90">{selectedChar.personality}</p>
+                    <div className="bg-black/20 backdrop-blur-sm p-5 rounded-2xl border border-white/5">
+                      <p className="text-white/40 text-[9px] uppercase font-black mb-2 tracking-widest">Behavioral Pattern</p>
+                      <p className="text-sm font-medium leading-relaxed">{selectedChar.personality}</p>
                     </div>
                   </div>
-                  
-                  <div className="pt-6">
-                    <p className="text-xl text-white/90 leading-relaxed font-light italic">"{selectedChar.description}"</p>
-                  </div>
+                  <p className="text-lg text-white/90 leading-relaxed font-light">
+                    {selectedChar.description}
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-6 border-b border-slate-200 pb-8">
-              <h3 className="text-3xl font-black tracking-tighter text-slate-900">IMAGE REPOSITORY</h3>
-              <div className="flex-grow h-px bg-slate-200"></div>
-              <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Total {selectedChar.imageRange[1] - selectedChar.imageRange[0] + 1} Files</div>
+            <div className="flex items-center justify-between border-b border-slate-200 pb-6">
+              <h3 className="text-2xl font-black tracking-tight">ARCHIVE DATA <span className="text-slate-300 font-light ml-3">#{selectedChar.imageRange[0]} - #{selectedChar.imageRange[1]}</span></h3>
+              <div className="px-4 py-1.5 bg-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                Data Version 3.1.0
+              </div>
             </div>
 
             {renderGallery(selectedChar.imageRange[0], selectedChar.imageRange[1])}
           </div>
         )}
 
-        {/* Common Repository View */}
+        {/* Common View */}
         {activeTab === 'common' && (
-          <div className="space-y-12 animate-in fade-in duration-700">
-             <div className="bg-slate-900 p-16 rounded-[3rem] text-white shadow-3xl text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 to-transparent"></div>
-              <div className="relative z-10 space-y-4">
-                <h2 className="text-5xl font-black tracking-tighter">GENERAL DATA</h2>
-                <p className="text-slate-400 max-w-xl mx-auto font-medium">N.P.S.I 본청 시설 관리 데이터 및 공식 운영 매뉴얼 라이브러리입니다.</p>
-              </div>
+          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
+             <div className="bg-slate-900 p-12 rounded-3xl text-white shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500 to-transparent"></div>
+              <h2 className="text-4xl font-black mb-3 z-10">COMMON ARCHIVE</h2>
+              <p className="text-slate-400 max-w-2xl z-10 font-medium">N.P.S.I 본청 시설 정보 및 공식 매뉴얼, 공통 상황 데이터를 포함하는 자료실입니다.</p>
             </div>
             {renderGallery(COMMON_RANGE[0], COMMON_RANGE[1])}
           </div>
@@ -220,88 +212,77 @@ const App: React.FC = () => {
 
       </main>
 
-      {/* Image Detail Modal */}
+      {/* Image Preview Modal */}
       {previewImageId !== null && (
         <div 
-          className="fixed inset-0 z-[100] bg-slate-950/98 backdrop-blur-xl flex items-center justify-center p-4 lg:p-12 animate-in fade-in duration-500"
+          className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-300"
           onClick={() => setPreviewImageId(null)}
         >
-          <button className="absolute top-10 right-10 text-white/20 hover:text-white transition-all hover:scale-125 z-[110]">
-            <i className="fa-solid fa-xmark text-5xl"></i>
+          <button 
+            className="absolute top-10 right-10 text-white/30 hover:text-white text-4xl transition-all hover:rotate-90"
+            onClick={() => setPreviewImageId(null)}
+          >
+            <i className="fa-solid fa-xmark"></i>
           </button>
           
           <div 
-            className="relative w-full max-w-7xl flex flex-col lg:flex-row bg-slate-900 rounded-[3rem] overflow-hidden shadow-[0_0_150px_rgba(0,0,0,0.8)] border border-white/5 h-full max-h-[90vh]"
+            className="relative max-w-6xl w-full flex flex-col lg:flex-row items-stretch bg-slate-900 rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] border border-white/10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="lg:w-[65%] bg-black flex items-center justify-center p-4 border-r border-white/5">
+            <div className="lg:w-2/3 bg-black flex items-center justify-center min-h-[50vh] lg:min-h-0 border-r border-white/5">
               <img 
                 src={`${BASE_IMAGE_URL}${previewImageId}.jpg`} 
-                className="max-w-full max-h-full object-contain shadow-2xl"
-                alt="Detailed View"
+                className="max-h-[85vh] w-full object-contain"
+                alt="Preview"
               />
             </div>
-            
-            <div className="lg:w-[35%] p-12 flex flex-col justify-between bg-slate-900 overflow-y-auto">
-              <div className="space-y-12">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                    <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">Record ID</span>
-                  </div>
-                  <h3 className="text-6xl font-black text-white tracking-tighter">#{previewImageId.toString().padStart(3, '0')}</h3>
+            <div className="lg:w-1/3 p-12 flex flex-col justify-between bg-slate-900 overflow-y-auto">
+              <div className="space-y-10">
+                <div className="pb-8 border-b border-white/10">
+                  <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] block mb-2">NPSI Data Record</span>
+                  <h3 className="text-4xl font-black text-white">#{previewImageId.toString().padStart(3, '0')}</h3>
                 </div>
                 
-                <div className="space-y-6">
-                  <h4 className="text-[12px] font-black text-slate-500 uppercase tracking-[0.3em] flex items-center">
-                    <i className="fa-solid fa-file-invoice mr-3 text-blue-500"></i>
-                    Official Data Entry
+                <div>
+                  <h4 className="text-[11px] font-black text-slate-500 uppercase mb-4 tracking-[0.2em] flex items-center">
+                    <i className="fa-solid fa-file-lines mr-3"></i>
+                    Official Description
                   </h4>
-                  <div className="bg-white/5 rounded-3xl p-8 border border-white/5">
-                    <p className="text-slate-100 text-xl leading-relaxed font-light whitespace-pre-wrap">
-                      {IMAGE_DESCRIPTIONS[previewImageId] || (
-                        <span className="text-slate-600 italic">No official data recorded for this entry.</span>
-                      )}
-                    </p>
+                  <div className="text-slate-200 text-lg leading-relaxed whitespace-pre-wrap font-light">
+                    {IMAGE_DESCRIPTIONS[previewImageId] || (
+                      <span className="text-slate-600 italic">현재 등록된 공식 설명 자료가 없습니다. (ID: {previewImageId})</span>
+                    )}
                   </div>
                 </div>
               </div>
               
-              <div className="mt-12 pt-8 border-t border-white/10">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3 opacity-30">
-                    <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-white font-bold">HQ</div>
-                    <div className="text-[9px] font-mono text-slate-400 uppercase tracking-tighter">NPSI Internal Storage <br/>Secure Session Active</div>
-                  </div>
-                  <i className="fa-solid fa-lock text-slate-700 text-xl"></i>
+              <div className="pt-10 mt-10 border-t border-white/5 flex flex-col space-y-4">
+                <div className="flex items-center space-x-3 grayscale opacity-30">
+                  <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-white font-bold">HQ</div>
+                  <div className="text-[9px] font-mono text-slate-400">ADMINISTRATIVE PORTAL ACCESS GRANTED</div>
                 </div>
+                <p className="text-[9px] text-slate-600 font-mono tracking-tighter">본 이미지는 N.P.S.I 관리 시스템에 의해 암호화되어 보호받고 있습니다.</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-20 mt-20">
+      <footer className="bg-white border-t border-slate-200 mt-20 py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex justify-center items-center space-x-8 mb-10">
-            <div className="w-20 h-px bg-slate-200"></div>
-            <div className="flex items-center space-x-3 text-slate-300">
-               <i className="fa-solid fa-building-shield text-2xl"></i>
-               <span className="text-xs font-black uppercase tracking-[0.5em]">N.P.S.I Office of Administration</span>
+          <div className="flex justify-center items-center space-x-6 mb-8">
+            <div className="w-16 h-px bg-slate-300"></div>
+            <div className="flex items-center space-x-2 text-slate-400">
+               <i className="fa-solid fa-shield-halved text-lg"></i>
+               <span className="text-[11px] font-black uppercase tracking-[0.4em]">Official Network</span>
             </div>
-            <div className="w-20 h-px bg-slate-200"></div>
+            <div className="w-16 h-px bg-slate-300"></div>
           </div>
-          
-          <div className="max-w-2xl mx-auto space-y-4">
-            <p className="text-sm text-slate-500 font-medium">
-              본 포털은 국가 복지 인센티브 프로젝트의 공식 기록 보관소입니다. <br/>
-              모든 이미지는 해당 요원의 승인 하에 등록되었습니다.
-            </p>
-            <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
-              &copy; 2030 National Pension Special Incentive. Service for Tomorrow.
-            </p>
-          </div>
+          <p className="text-xs text-slate-400 leading-relaxed max-w-xl mx-auto">
+            &copy; 2030 National Pension Special Incentive Administration. All Rights Reserved.<br/>
+            본 포털의 모든 이미지와 데이터는 국가 보안 사항입니다. <br/>
+            이미지 설명 수정은 시스템 개발 파일(<code className="bg-slate-100 px-1 rounded text-slate-600">constants.ts</code>)을 통해 직접 수행하십시오.
+          </p>
         </div>
       </footer>
     </div>
